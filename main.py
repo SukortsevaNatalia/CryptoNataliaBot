@@ -6,7 +6,7 @@ bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start', 'help'])
 def help(message: telebot.types.Message):
-    text = 'Чтобы начать работу введите команду боту в следующем формате:\n<имя валюты, цену которой вы хотите узнать> \
+    text = 'Чтобы начать работу введите команду боту в следующнм формате:\n<имя валюты, цену которой вы хотите узнать> \
 <имя валюты, в которой вам надо узнать цену первой валюты> \
 <количество первой валюты>\n Чтобы посмотреть список всех доступных валют нажмите values: /values'
     bot.reply_to(message, text)
@@ -30,6 +30,7 @@ def convert(message: telebot.types.Message):
 
         base, quote, amount = values
         total_base = CryptoConverter.get_price(base, quote, amount)
+
     except APIException as e:
         bot.reply_to(message, f'Ошибка пользователя\n{e}')
     except Exception as e:
@@ -38,4 +39,4 @@ def convert(message: telebot.types.Message):
         text = f'Цена {amount} {base} в {quote} - {total_base}'
         bot.send_message(message.chat.id, text)
 
-bot.polling()
+bot.polling(none_stop=True)
